@@ -1,6 +1,7 @@
 # CELAB
 
 Computer Engineering Project Lab
+
 Texas Tech Electrical and Computer Engineering
 
 This repository details a signal processing program that captures and interprets signal from a digital piano 
