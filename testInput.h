@@ -1,2 +1,3 @@
 #include<stdio.h>
-extern unsigned char tempWAV[32768];
+extern double  tempWAV[32768];
+//this used to be unsinged char

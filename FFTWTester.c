@@ -5,7 +5,7 @@
 #include "testInput.h"
 #define NUM_ELEMENTS 32768 
 
-unsigned char tempWAV[NUM_ELEMENTS];
+double tempWAV[NUM_ELEMENTS];
 
 void fastFourier(){
     FILE *fp, *op;

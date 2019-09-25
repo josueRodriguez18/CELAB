@@ -11,7 +11,7 @@
 
 #include "testInput.h"
 #define NUM_ELEMENTS 32768
-unsigned char tempWAV[NUM_ELEMENTS] = {
+double  tempWAV[NUM_ELEMENTS] = {
 128, 171, 209, 238, 253, 254, 240, 212, /* 0-7 */
 175, 132,  88,  49,  19,   3,   1,  13, /* 8-15 */
  40,  77, 119, 163, 203, 233, 251, 255, /* 16-23 */
