@@ -19,7 +19,7 @@ void fastFourier(){
         in[0][j] = tempWAV[j];
     }
     p = fftw_plan_dft_1d(size, in, out, FFTW_FORWARD, FFTW_ESTIMATE);
-    fftw_execute(p);   
+    fftw_execute(p);
     fp = fopen("testInput.dat", "w");
     for( int k = 0; k < size; k++){
         fprintf(fp, "%f %f", k, in[0][k]);
