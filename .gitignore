@@ -8,5 +8,5 @@ fftw-3.3.8.tar/
 *.exe
 *.pptx
 *.pdf
-./Algorithms/
-./ComputerArchitecture/
+/Algorithms/
+/ComputerArchitecture/
