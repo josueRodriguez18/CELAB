@@ -33,6 +33,23 @@ void fastFourier(){
     fftw_free(in); fftw_free(out);
 }
 
+
+int max(double arr[]){
+    double max = 0;
+    int index = 0;
+    double pos[NUM_ELEMENTS];
+    for(int i = 0; i < NUM_ELEMENTS; i++){
+        pos[i] = fabs(arr[i]);
+    }
+    for(int i = 0; i < NUM_ELEMENTS; i++){
+        if(arr[i] > max){
+            max = arr[i]
+            index = i;
+        }
+    }
+    return i;
+}
+
 //gcc FFTWTester.c -o test -L/usr/local/lib -lfftw3
 
 int main(){
