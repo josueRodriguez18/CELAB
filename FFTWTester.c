@@ -16,8 +16,7 @@ double * fourierABS(fftw_complex arr[]); //absolute value of  fourier output
 //gcc FFTWTester.c testInput.C testInput.h -o FFTWTester -lfftw3 -lm
 
 int main(){
-    char k[2];
-    fgets(k, 2, stdin); //pause to see results
+
     fastFourier();
     return 0;
 }
@@ -31,17 +30,17 @@ void fastFourier(){
     in = (fftw_complex*)fftw_malloc(sizeof(fftw_complex) * size); //allocating space for arrays
     out = (fftw_complex*)fftw_malloc(sizeof(fftw_complex) * size);
     for(int j = 0; j < size; j++){ //filling in array with data
-        in[0][j] = tempWAV[j];
+        in[j][0] = tempWAV[j];
     }
     p = fftw_plan_dft_1d(size, in, out, FFTW_FORWARD, FFTW_ESTIMATE); //assign plan to plan variable
     fftw_execute(p); //compute fft
     fp = fopen("testInput.dat", "w"); //open file stream
     for( int k = 0; k < size; k++){
-        fprintf(fp, "%c %f", ' ', in[k]); //write input data to see if it matches with input.dat
+        fprintf(fp, "%f " , in[k][0]); //write input data to see if it matches with input.dat
     }
     op = fopen("testOutput.dat", "w");
     for(int i = 0; i < size; i++){
-         fprintf(op, "%c %f", ' ', out[i]); //open output data for graphing with matlab
+         fprintf(op, "%f %f ", out[i][0], out[i][1]); //open output data for graphing with matlab
      }
     fclose(op); //close io streams
     fftw_destroy_plan(p); //destroy plan
@@ -67,5 +66,11 @@ int max(double arr[]){
 
 double * fourierABS(fftw_complex arr[]){
 	static double out[NUM_ELEMENTS];
+	for(int i = 0; i < NUM_ELEMENTS; i++){
+		out[i] = sqrt( arr[i][0]*arr[i][0] + arr[i][1]*arr[i][1] );
+
+}
+
+
 	return out;
 }
