@@ -5,3 +5,6 @@ fftw-3.3.8.tar/
 *.zip
 *stackdump
 *.wav
+*.exe
+*.pptx
+*.pdf
