@@ -9,8 +9,8 @@
 double tempWAV[NUM_ELEMENTS]; //data from WAVto code tool
 
 void fastFourier(); //fft execution
-int max(double arr[]); //max amplitude finder
-double * fourierABS(fftw_complex arr[]); //absolute value of  fourier output
+int max(fftw_complex arr[]); //max amplitude finder
+void fourierABS(fftw_complex arr[], double *out); //absolute value of  fourier output
 
 //compiler instructions
 //gcc FFTWTester.c testInput.C testInput.h -o FFTWTester -lfftw3 -lm
@@ -21,7 +21,7 @@ int main(){
     return 0;
 }
 
-void fastFourier(){
+void fastFourier(){ //need to make this return an fftw_complex array for use with other functions
     FILE *fp, *op;
     int size = NUM_ELEMENTS;
     //creates imaginary & real arrays for input data and output data
@@ -47,16 +47,14 @@ void fastFourier(){
     fftw_free(in); fftw_free(out); //free array memory
 }
 
-int max(double arr[]){
+int max(fftw_complex arr[]){
     double max = 0;
     int index = 0;
     double pos[NUM_ELEMENTS];
-    for(int i = 0; i < NUM_ELEMENTS; i++){
-        pos[i] = fabs(arr[i]);
-    }
-    for(int i = 0; i < NUM_ELEMENTS; i++){
-        if(arr[i] > max){
-            max = arr[i];
+    fourierABS(arr, pos);
+     for(int i = 0; i < NUM_ELEMENTS; i++){
+        if(pos[i] > max){
+            max = pos[i];
             index = i;
         }
     }
@@ -64,13 +62,9 @@ int max(double arr[]){
 }
 
 
-double * fourierABS(fftw_complex arr[]){
-	static double out[NUM_ELEMENTS];
+void fourierABS(fftw_complex arr[], double *out){
 	for(int i = 0; i < NUM_ELEMENTS; i++){
 		out[i] = sqrt( arr[i][0]*arr[i][0] + arr[i][1]*arr[i][1] );
 
 }
-
-
-	return out;
 }
