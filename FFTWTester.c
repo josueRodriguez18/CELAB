@@ -1,27 +1,33 @@
 #include<stdio.h>
-#include<unistd.h>
 #include <fftw3.h>
 #include<sys/stat.h>
 #include<math.h>
 #include "testInput.h"
-#define NUM_ELEMENTS 32768 
+#define NUM_ELEMENTS 32768 //number of samples
+#define fs 8000 //sampling rate
 
 double tempWAV[NUM_ELEMENTS]; //data from WAVto code tool
 
-void fastFourier(); //fft execution
+double fastFourier(); //fft execution
 int max(double arr[]); //max amplitude finder
 double * fourierABS(fftw_complex arr[]); //absolute value of  fourier output
+double * fftShift(double *in); //shifts fourier transform
+void cents(double freq);
 
 //compiler instructions
 //gcc FFTWTester.c testInput.C testInput.h -o FFTWTester -lfftw3 -lm
 
 int main(){
 
-    fastFourier();
+    double freq = fastFourier();
+    printf("%f \n", freq); //output frequency
+    cents(freq);
+    double test;
+    scanf("%f", test); //used to pause output
     return 0;
 }
 
-void fastFourier(){
+double fastFourier(){
     FILE *fp, *op;
     int size = NUM_ELEMENTS;
     //creates imaginary & real arrays for input data and output data
@@ -40,27 +46,27 @@ void fastFourier(){
     }
     op = fopen("testOutput.dat", "w");
     for(int i = 0; i < size; i++){
-         fprintf(op, "%f %f ", out[i][0], out[i][1]); //open output data for graphing with matlab
+         fprintf(op, "%f ", out[i][0]); //open output data for graphing with matlab
      }
+    out[0][0] = 0;
+    double *mag = fourierABS(out);
     fclose(op); //close io streams
     fftw_destroy_plan(p); //destroy plan
     fftw_free(in); fftw_free(out); //free array memory
+
+    return max(mag)*fs/NUM_ELEMENTS;
 }
 
-int max(double arr[]){
+int max(double *arr){
     double max = 0;
     int index = 0;
-    double pos[NUM_ELEMENTS];
-    for(int i = 0; i < NUM_ELEMENTS; i++){
-        pos[i] = fabs(arr[i]);
-    }
     for(int i = 0; i < NUM_ELEMENTS; i++){
         if(arr[i] > max){
             max = arr[i];
             index = i;
         }
     }
-    return index;
+    return index; //index * fs/NUM_ELEMENTS
 }
 
 
@@ -68,9 +74,28 @@ double * fourierABS(fftw_complex arr[]){
 	static double out[NUM_ELEMENTS];
 	for(int i = 0; i < NUM_ELEMENTS; i++){
 		out[i] = sqrt( arr[i][0]*arr[i][0] + arr[i][1]*arr[i][1] );
-
+    }
+	return out;
 }
 
+double * fftShift(double *in){
+    double *rH, *lH;
+    lH = in; rH = in + NUM_ELEMENTS/2;
+    for (int i = 0; i < NUM_ELEMENTS/2; i++){
+        in[i] = rH[i];
+    }
+    for(int i = NUM_ELEMENTS/2; i < NUM_ELEMENTS; i++){
+        in[i] = lH[i];
+    }
+    return in;
+}
 
-	return out;
+void cents(double freq){
+    double Fd;
+    printf("%s", "Please input desired frequency \n");
+    scanf("%f", Fd); //take in freq
+    printf("%f \n", Fd); //reprint freq
+    double c = 1200*log(freq/Fd)/log(2);
+    printf("Note is %f away from the desired note", c);
+
 }
