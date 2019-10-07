@@ -8,5 +8,7 @@ fftw-3.3.8.tar/
 *.exe
 *.pptx
 *.pdf
+/Spice
+/Presentations
 /Algorithms/
 /ComputerArchitecture/
