@@ -70,8 +70,10 @@ int max(double *arr){
 }
 
 
-void fourierABS(fftw_complex arr[], double *out){
-	for(int i = 0; i < NUM_ELEMENTS; i++){
+double * fourierABS(fftw_complex * arr){
+	static double *out = NULL;
+    out = malloc(NUM_ELEMENTS*sizeof(double));
+    for(int i = 0; i < NUM_ELEMENTS; i++){
 		out[i] = sqrt( arr[i][0]*arr[i][0] + arr[i][1]*arr[i][1] );
     }
 	return out;
