@@ -3,6 +3,7 @@
 #include<sys/stat.h>
 #include<math.h>
 #include "testInput.h"
+#include<stdlib.h>
 #define NUM_ELEMENTS 32768 //number of samples
 #define fs 8000 //sampling rate
 
@@ -18,11 +19,11 @@ void cents(double freq);
 //gcc FFTWTester.c testInput.C testInput.h -o FFTWTester -lfftw3 -lm
 
 int main(){
-
     double freq = fastFourier();
+    int Fd = 0;
     printf("%f \n", freq); //output frequency
     cents(freq);
-    double test;
+    double test = 0;
     scanf("%f", test); //used to pause output
     return 0;
 }
