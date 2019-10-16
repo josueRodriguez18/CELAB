@@ -39,10 +39,10 @@ spi.open(0, 0)
 
 #out = [None] * 32768
 
-#for i in range(0, 32768):
-#	if (drdy):
-#		out[i] = read()
-#print(out)
+for i in range(0, 32768):
+	if (drdy):
+		out[i] = read()
+print(out)
 print(value)
 value = conversion(value)
 print(value)
