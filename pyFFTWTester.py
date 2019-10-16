@@ -11,14 +11,17 @@ def fastFourier():
     return output
 
 def max( arr ):
-    max = 0
-    for x in arr:
-        if(arr[x] > max):
-            max = arr[x]
-
-    return x
+	max = 0
+	k = 0
+	while k < len(arr):
+		if(arr[k] > max):
+			max = arr[k]
+		k+=1
+	return k
 
 def fourierABS( arr ):
-    for(x in arr):
+    for x in arr:
         absOut[x] = sqrt(arr[x].real^2 + arr[x].imag^2)
     return absOut
+
+freq = max(fastFourier())*Fs/NUM_ELEMENTS

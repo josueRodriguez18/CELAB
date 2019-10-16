@@ -18,9 +18,8 @@ cs = 15
 value = [120, 69, 150]
 
 def read():
-	#spi.writebytes([0x01])
-	#value = spi.readbytes(3)
-	print(value)
+	spi.writebytes([0x01])
+	value = spi.readbytes(3)
 	value = conversion(value)
 	return value
 
@@ -37,12 +36,11 @@ gpio.setup(cs, gpio.OUT) #CS
 
 spi.open(0, 0)
 
-#out = [None] * 32768
+out = [None] * 32768
 
 for i in range(0, 32768):
 	if (drdy):
 		out[i] = read()
-print(out)
 print(value)
 value = conversion(value)
 print(value)
