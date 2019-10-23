@@ -60,6 +60,7 @@ def main():
 			byteValue = spi.readbytes(3)  #take in data
 			out[x] = conversion(byteValue) #convert
 			x = x + 1 #increment index
+		#spi.writebytes([0x01]) <-- uncomment this  if you wanna probe the clock output
 		
 main()
 
