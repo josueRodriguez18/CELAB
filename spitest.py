@@ -69,17 +69,23 @@ def main():
 
 #main()
 
-#while(True):
-#	spi.writebytes([0x01])
-df = 1
+testint = 0
+
 while(True):
-	if(gpio.input(drdy) == 0 and df == 1): #if data ready just went from high to low
-		df = 0 #update drdy previous state
-		spi.writebytes([0x01]) #issue read command
+	spi.writebytes([0x01])
+	time.sleep(.000002)
+	testint = spi.readbytes(3)
+	#print(testint)
+df = 1
+#while(True):
+#	if(gpio.input(drdy) == 0 and df == 1): #if data ready just went from high to low
+#	if(gpio.input(drdy) == 0): #non df based if statement
+#		df = 0 #update drdy previous state
+#		spi.writebytes([0x01]) #issue read command
 		#time.sleep(.0001) #amount of time for 50 clock pulse delay (Rclk/Sclk x 50)
 	#	byteValue = spi.readbytes(3)  #take in data
-	if (gpio.input(drdy) == 1):
-		df = 1
+#	if (gpio.input(drdy) == 1):
+#		df = 1
 
 
 
