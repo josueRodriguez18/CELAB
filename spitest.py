@@ -53,17 +53,33 @@ def main():
 	x = 0 #out index
 	df = 1 #previous data ready state flag
 	while(True):
-		if(drdy == 0 & df == 1): #if data ready just went from high to low
+		if(gpio.input(drdy) == 0 and df == 1): #if data ready just went from high to low
 			df = 0 #update drdy previous state
 			spi.writebytes([0x01]) #issue read command
-			time.sleep(.00001) #amount of time for 50 clock pulse delay (Rclk/Sclk x 50)
+#			time.sleep(.00000651) #amount of time for 50 clock pulse delay (Rclk/Sclk x 50)
 			byteValue = spi.readbytes(3)  #take in data
 			out[x] = conversion(byteValue) #convert
+			print(byteValue)
 			x = x + 1 #increment index
-		#spi.writebytes([0x01]) <-- uncomment this  if you wanna probe the clock output
-		
-main()
+		if (gpio.input(drdy) == 1):
+			df = 1
 
+
+		#spi.writebytes([0x01]) <-- uncomment this  if you wanna probe the clock output
+
+#main()
+
+#while(True):
+#	spi.writebytes([0x01])
+df = 1
+while(True):
+	if(gpio.input(drdy) == 0 and df == 1): #if data ready just went from high to low
+		df = 0 #update drdy previous state
+		spi.writebytes([0x01]) #issue read command
+		#time.sleep(.0001) #amount of time for 50 clock pulse delay (Rclk/Sclk x 50)
+	#	byteValue = spi.readbytes(3)  #take in data
+	if (gpio.input(drdy) == 1):
+		df = 1
 
 
 
