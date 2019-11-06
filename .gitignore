@@ -1,3 +1,4 @@
+*.o
 *.tar
 *.tar.gz
 fftw-3.3.5-dll64/
@@ -8,5 +9,10 @@ fftw-3.3.8.tar/
 *.exe
 *.pptx
 *.pdf
+/Spice
+/Presentations
 /Algorithms/
 /ComputerArchitecture/
+/.vscode/
+*.png
+/SPITesting
