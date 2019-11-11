@@ -26,7 +26,7 @@ gpio.setup(sync, gpio.OUT) #SYNC
 
 #value = [120, 69, 150]
 
-out = [1] * 32768
+out = [None] * 1024  #32768 original size
 
 spi.writebytes([0xFC]) #sync
 time.sleep(1)
@@ -84,7 +84,6 @@ def main():
 
 		#spi.writebytes([0x01]) <-- uncomment this  if you wanna probe the clock output
 
-main()
 
 
 
@@ -126,3 +125,22 @@ def tester():
 #tester()
 
 
+def oneShot():
+	for j in range(0, 46200):
+		pass
+	df = 1
+	spi.writebytes([0x00])
+	while(not gpio.input(drdy) == 0) :
+		pass
+	spi.writebytes([0x01])
+	byteValue = spi.readbytes(3)
+	return byteValue
+
+
+spi.writebytes([0xFD])
+x = 0
+while x < 1023:
+	out[x] = conversion(oneShot())
+	x = x+1
+for y in range(0,1023):
+	print(out[y])
