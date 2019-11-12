@@ -46,6 +46,9 @@ def oneShot():
 		pass
 	spi.writebytes([0x01]) #READData command
 	byteValue = spi.readbytes(3) #read values
+	while(not gpio.input(drdy)):
+		pass
+	spi.writebytes([0xFD]) #put back in standby mode
 	return byteValue #return for conversion
 
 
