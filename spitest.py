@@ -37,9 +37,10 @@ def conversion(value):
 	return new
 
 def oneShot():
-	for j in range(0, 46200): #delay between oneShots, not accurate (should be 33 microseconds)
-		pass #do nothing
-	df = 1 #set data flag to one
+	#for j in range(0, 46200): #delay between oneShots, not accurate (should be 33 microseconds)
+	#	pass #do nothing
+	#df = 1 #set data flag to one
+	wiringpi.delayMicroseconds(33)
 	spi.writebytes([0x00]) #WAKEUP command
 	while(not gpio.input(drdy) == 0) : #wait until drdy goes low
 		pass
