@@ -139,8 +139,17 @@ def oneShot():
 
 spi.writebytes([0xFD])
 x = 0
+start = time.clock()
 while x < 1023:
 	out[x] = conversion(oneShot())
+	#out[x] = oneShot()
 	x = x+1
+elapsed = time.clock() - start
 for y in range(0,1023):
 	print(out[y])
+print(elapsed)
+k = 0
+for y in range(2, 1023):
+	if out[y] == out[1]:
+		k = y - 1
+print(k)
