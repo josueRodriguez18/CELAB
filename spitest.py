@@ -1,8 +1,7 @@
 import time
-import timeit
 import spidev
 import RPi.GPIO as gpio
-import random
+import wiringpi
 
 spi = spidev.SpiDev()
 
