@@ -2,6 +2,8 @@ import time
 import spidev
 import RPi.GPIO as gpio
 import wiringpi
+import matplotlib
+import matplotlib.pyplot as plt
 
 spi = spidev.SpiDev()
 
@@ -23,10 +25,10 @@ gpio.setup(rst, gpio.OUT) #RESET
 gpio.setup(drdy, gpio.IN) #DRDY
 gpio.setup(sync, gpio.OUT) #SYNC
 
-out = [None] * 1024  #32768 original size (shortened to 1024 for testing purposes)
+out = [None] * 32768  #32768 original size (shortened to 1024 for testing purposes)
 
 spi.writebytes([0xFC]) #sync
-time.sleep(1)
+wiringpi.delayMicroseconds(1000000)
 spi.writebytes([0x00]) #wakeup
 
 def conversion(value):
@@ -42,11 +44,11 @@ def oneShot():
 	#df = 1 #set data flag to one
 	wiringpi.delayMicroseconds(33)
 	spi.writebytes([0x00]) #WAKEUP command
-	while(not gpio.input(drdy) == 0) : #wait until drdy goes low
+	while((gpio.input(drdy)) == 1) : #wait until drdy goes low
 		pass
 	spi.writebytes([0x01]) #READData command
 	byteValue = spi.readbytes(3) #read values
-	while(not gpio.input(drdy)):
+	while((gpio.input(drdy)) == 0):
 		pass
 	spi.writebytes([0xFD]) #put back in standby mode
 	return byteValue #return for conversion
@@ -55,16 +57,20 @@ def oneShot():
 spi.writebytes([0xFD]) #begin standby mode
 x = 0 #array index
 start = time.clock() #start time for sample
-while x < 1023: #1024 samples
+while x < 32768: #1024 samples
 	out[x] = conversion(oneShot()) #take sample
-	#out[x] = oneShot()
 	x = x+1 #increment index
 elapsed = time.clock() - start #total elapsed time
-for y in range(0,1023):
+for y in range(0, 32768):
 	print(out[y]) #print out values for testing
 print(elapsed) #print elapsed time (elapsed time/1024 = deltaX = time between array indeces
-k = 0
-for y in range(2, 1023): #look for similar values and return the differences between their indexes
-	if out[y] == out[1]:
-		k = y - 1
-print(k)
+#k = 0
+#for y in range(2, 32768): #look for similar values and return the differences between their indexes
+#	if out[y] <= out[1] + 5 and out[y] >= out[1] - 5:
+#		k = y - 1
+#print(k)
+xaxis = [0]*32768
+for i in range(1,32768):
+	xaxis[i] = i
+plt.plot(xaxis, out)
+plt.show()
