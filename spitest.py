@@ -37,6 +37,7 @@ def conversion(value):
 	return new
 
 def oneShot():
+	wiringpi.piHiPri(3) #program priority higher to reduce overhead
 	wiringpi.delayMicroseconds(33) #delay between conversions(30ksps)
 	spi.writebytes([0x00]) #WAKEUP command
 	while(not gpio.input(drdy) == 0) : #wait until drdy goes low
