@@ -24,13 +24,8 @@ gpio.setwarnings(False)
 gpio.setup(rst, gpio.OUT) #RESET
 gpio.setup(drdy, gpio.IN) #DRDY
 gpio.setup(sync, gpio.OUT) #SYNC
-<<<<<<< HEAD
 
 out = [None] * 32768  #32768 original size (shortened to 1024 for testing purposes)
-=======
-NUM_ELEMENTS = 1024
-out = [None] * NUM_ELEMENTS  #32768 original size (shortened to NUM_ELEMENTS for testing purposes)
->>>>>>> 2294ddb3d5151edcd57623cb23123a97db69681c
 
 spi.writebytes([0xFC]) #sync
 wiringpi.delayMicroseconds(1000000)
@@ -44,8 +39,10 @@ def conversion(value):
 	return new
 
 def oneShot():
-	wiringpi.piHiPri(3) #program priority higher to reduce overhead
-	wiringpi.delayMicroseconds(33) #delay between conversions(30ksps)
+	#for j in range(0, 46200): #delay between oneShots, not accurate (should be 33 microseconds)
+	#	pass #do nothing
+	#df = 1 #set data flag to one
+	wiringpi.delayMicroseconds(33)
 	spi.writebytes([0x00]) #WAKEUP command
 	while((gpio.input(drdy)) == 1) : #wait until drdy goes low
 		pass
@@ -57,7 +54,6 @@ def oneShot():
 	return byteValue #return for conversion
 
 
-<<<<<<< HEAD
 spi.writebytes([0xFD]) #begin standby mode
 x = 0 #array index
 start = time.clock() #start time for sample
@@ -78,17 +74,3 @@ for i in range(1,32768):
 	xaxis[i] = i
 plt.plot(xaxis, out)
 plt.show()
-=======
-def sampler(num):
-	spi.writebytes([0xFD]) #begin standby mode (only do once)
-	x = 0 #array index
-	start = time.clock() #start time for sample
-	while x < num: #num samples
-		out[x] = conversion(oneShot()) #take sample
-		x = x+1 #increment index
-	elapsed = time.clock() - start #total elapsed time
-	for y in range(0,num):
-		print(out[y]) #print out values for testing
-	print(elapsed) #print elapsed time (elapsed time/num = deltaX = time between array indeces
-
->>>>>>> 2294ddb3d5151edcd57623cb23123a97db69681c
