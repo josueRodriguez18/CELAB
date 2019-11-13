@@ -1,12 +1,12 @@
 import pyfftw
 import numpy
 import spitest
-NUM_ELEMENTS = 32768
+import spitest.NUM_ELEMENTS as NUM_ELEMENTS
 Fs = 30000
 
 def fastFourier():
-    input = pyfftw.empty_aligned(32768, dtype ='complex128')
-    output = pyfftw.empty_aligned(32768, dtype ='complex128')
+    input = pyfftw.empty_aligned(NUM_ELEMENTS, dtype ='complex128')
+    output = pyfftw.empty_aligned(NUM_ELEMENTS, dtype ='complex128')
     fft_object = pyfftw.FFTW(input, output)
     return output
 
