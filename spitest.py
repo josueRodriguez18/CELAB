@@ -22,8 +22,8 @@ gpio.setwarnings(False)
 gpio.setup(rst, gpio.OUT) #RESET
 gpio.setup(drdy, gpio.IN) #DRDY
 gpio.setup(sync, gpio.OUT) #SYNC
-
-out = [None] * 1024  #32768 original size (shortened to 1024 for testing purposes)
+NUM_ELEMENTS = 1024
+out = [None] * NUM_ELEMENTS  #32768 original size (shortened to NUM_ELEMENTS for testing purposes)
 
 spi.writebytes([0xFC]) #sync
 time.sleep(1)
@@ -50,19 +50,15 @@ def oneShot():
 	return byteValue #return for conversion
 
 
-spi.writebytes([0xFD]) #begin standby mode
-x = 0 #array index
-start = time.clock() #start time for sample
-while x < 1023: #1024 samples
-	out[x] = conversion(oneShot()) #take sample
-	#out[x] = oneShot()
-	x = x+1 #increment index
-elapsed = time.clock() - start #total elapsed time
-for y in range(0,1023):
-	print(out[y]) #print out values for testing
-print(elapsed) #print elapsed time (elapsed time/1024 = deltaX = time between array indeces
-k = 0
-for y in range(2, 1023): #look for similar values and return the differences between their indexes
-	if out[y] == out[1]:
-		k = y - 1
-print(k)
+def sampler(num):
+	spi.writebytes([0xFD]) #begin standby mode (only do once)
+	x = 0 #array index
+	start = time.clock() #start time for sample
+	while x < num: #num samples
+		out[x] = conversion(oneShot()) #take sample
+		x = x+1 #increment index
+	elapsed = time.clock() - start #total elapsed time
+	for y in range(0,num):
+		print(out[y]) #print out values for testing
+	print(elapsed) #print elapsed time (elapsed time/num = deltaX = time between array indeces
+
