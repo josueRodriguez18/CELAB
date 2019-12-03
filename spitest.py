@@ -46,7 +46,7 @@ def conversion(value):
 	return new
 
 def oneShot():
-	count(3) #count x 33 us periods
+	count(7) #count x 33 us periods
 	spi.writebytes([0x00]) #WAKEUP command
 	while((gpio.input(drdy)) == 1) : #wait until drdy goes low
 		pass
@@ -70,21 +70,21 @@ def count(y):
 def main():
 	spi.writebytes([0xFD]) #begin standby mode
 	x = 0 #array index
-	start = time.clock() #start time for sample
+	#start = time.clock() #start time for sample
 	while x < NUM_ELEMENTS: #1024 samples
 		out[x] = conversion(oneShot()) #take sample
 		x = x+1 #increment index
-	elapsed = time.clock() - start #total elapsed time
-	avgel = elapsed/NUM_ELEMENTS
-	for y in range(0, NUM_ELEMENTS):
-		print(out[y]) #print out values for testing
-	print(elapsed) #print elapsed time (elapsed time/1024 = deltaX = time between array indeces
-	print(avgel)
-	xaxis = [0]*NUM_ELEMENTS
-	for i in range(1,NUM_ELEMENTS):
-		xaxis[i] = i
-	plt.plot(xaxis, out)
-	plt.show()
+	#elapsed = time.clock() - start #total elapsed time
+	#avgel = elapsed/NUM_ELEMENTS
+	#for y in range(0, NUM_ELEMENTS):
+	#	print(out[y]) #print out values for testing
+	#print(elapsed) #print elapsed time (elapsed time/1024 = deltaX = time between array indeces
+	#print(avgel)
+	#xaxis = [0]*NUM_ELEMENTS
+	#for i in range(1,NUM_ELEMENTS):
+	#	xaxis[i] = i
+	#plt.plot(xaxis, out)
+	#plt.show()
 	#arayout = matplotlib.pyplot.specgram(out, 1024, 30000, 0)
 	#plt.plot()
 main()
