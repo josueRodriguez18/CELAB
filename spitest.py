@@ -14,7 +14,7 @@ drdy = 13
 sync = 15
 timer = 16
 
-NUM_ELEMENTS = 4096
+NUM_ELEMENTS = 4096+4096
 
 spi.open(0, 0)
 spi.mode = 1

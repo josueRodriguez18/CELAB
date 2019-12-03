@@ -7,7 +7,7 @@ import matplotlib
 import matplotlib.pyplot as plt
 from spitest import NUM_ELEMENTS
 from spitest import out as IN
-Fs = 7186
+Fs = 7522
 
 absOut = [None] * NUM_ELEMENTS
 def fastFourier():
@@ -47,7 +47,8 @@ outty[0] = 0
 outty = np.abs(outty)
 index = max(outty)
 freq = index*Fs/NUM_ELEMENTS
-print(index)
+#print(index)
+print("Frequency: ")
 print(freq)
 xaxis = [0]*NUM_ELEMENTS
 for i in range (1,NUM_ELEMENTS):
