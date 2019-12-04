@@ -1,8 +1,6 @@
 import time
 import spidev
 import RPi.GPIO as gpio
-import wiringpi
-import matplotlib
 import matplotlib.pyplot as plt
 
 spi = spidev.SpiDev()
@@ -74,17 +72,21 @@ def main():
 	while x < NUM_ELEMENTS: #1024 samples
 		out[x] = conversion(oneShot()) #take sample
 		x = x+1 #increment index
-	#elapsed = time.clock() - start #total elapsed time
-	#avgel = elapsed/NUM_ELEMENTS
-	#for y in range(0, NUM_ELEMENTS):
-	#	print(out[y]) #print out values for testing
-	#print(elapsed) #print elapsed time (elapsed time/1024 = deltaX = time between array indeces
-	#print(avgel)
-	#xaxis = [0]*NUM_ELEMENTS
-	#for i in range(1,NUM_ELEMENTS):
-	#	xaxis[i] = i
-	#plt.plot(xaxis, out)
-	#plt.show()
-	#arayout = matplotlib.pyplot.specgram(out, 1024, 30000, 0)
-	#plt.plot()
+
+def printer( arr ,timeBool = 0, valBool = 0, plotBool = 1): #default only show plot
+	if(timeBool != 0):
+		elapsed = time.time() #total time
+		avgel = elapsed/NUM_ELEMENTS #average time between indeces
+		print("Total Time: ", elapsed) #prints
+		print("Avg time between indeces: ", avgel)
+	if(valBool):
+		for y in range(0, NUM_ELEMENTS):
+			print(arr[y])
+	if(plotBool):
+		xaxis = [0]*NUM_ELEMENTS
+		for i in range(0, NUM_ELEMENTS):
+			xaxis[i] = i
+		plt.plot(xaxis, arr)
+		plt.show()
+	
 main()
