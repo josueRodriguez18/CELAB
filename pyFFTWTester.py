@@ -7,10 +7,9 @@ import matplotlib.pyplot as plt
 from spitest import NUM_ELEMENTS
 from spitest import out as IN
 Fs = 7522
-NOTERY = { "C":16.35, "C#":17.32, "D":18.35, "D#":19.45, "E#":20.60,"F":21.83, "F#":23.12, "G":24.5, "G#":25.96, "A":27.5, "A#":29.14, "B":30.87, 
- 16.35:"C", 17.32:"C#", 18.35:"D", 19.45:"D#", 20.60:"E#", 21.83:"F", 23.12:"F#", 24.5:"G", 25.96:"G#", 27.5:"A", 29.14:"A#", 30.87:"B"}
+NOTERY = { 'C':16.35, "C#":17.32, 'D':18.35, "D#":19.45, "E#":20.60,'F':21.83, "F#":23.12, 'G':24.5, "G#":25.96, 'A':27.5, "A#":29.14, 'B':30.87,
+ 16.35:'C', 17.32:"C#", 18.35:'D', 19.45:"D#", 20.60:"E#", 21.83:'F', 23.12:"F#", 24.5:'G', 25.96:"G#", 27.5:'A', 29.14:"A#", 30.87:'B'}
 
-octave = 0
 
 # absOut = [None] * NUM_ELEMENTS
 # def fastFourier():
@@ -40,48 +39,54 @@ def max( arr ):
 
 def nFourier():
 	x = np.array(IN)
-	output = np.fft(x)
-	output = nFourier()
+	output = fft(x)
+	#output = nFourier()
 	output[0] = 0
 	output = np.abs(output)
 	return output
 
 
 def noteTable(note):
+	octave = 0
 	while ( note > 32.7 ):
 		note = note/2
 		octave = octave + 1
-	if ( note <= 17.32):
-		result = "C"
-	elif( 17.32 < note and note <= 18.35):
-		result = "C#"
-	elif( 18.35 < note and note <= 19.45):
-		result = "D"
-	elif( 19.45 < note and note <= 20.60):
-		result = "D#"
+	if ( 15.00 < note and note <= 16.84):
+		result = "C"  #16.35
+	elif( 16.84 < note and note <= 17.84):
+		result = "C#" #17.32
+	elif( 17.84 < note and note <= 18.90):
+		result = "D"  #18.35
+	elif( 18.90 < note and note <= 20.03):
+		result = "D#" #19.45
 	elif( 20.60 < note and note <= 21.83):
-		result = "E"
+		result = "E"  #20.60
 	elif( 21.83 < note and note <= 23.12):
-		result = "F"
+		result = "F"  #21.83
 	elif( 23.12 < note and note <= 24.50):
-		result = "F#"
+		result = "F#" #23.12
 	elif( 24.50 < note and note <= 25.96):
-		result = "G"
+		result = "G"  #24.50
 	elif( 25.96 < note and note <= 27.50):
-		result = "A"
+		result = "G#" #25.96
 	elif( 29.14 < note and note <= 30.87):
-		result = "A#"
-	elif( 30.87 < note and note <= 32.70):
-		result = "B"
-	return result
+		result = "A"  #
+	elif( 30.87 < note and note < 32.70):
+		result = "A#" #
+	elif( 30.87 < note and note < 32.70):
+		result = "B"  #
+	return result, octave
 
 
 def inOut( freq ):
 	print("Frequency: " , freq)
 	note = noteTable(freq)
-	print(note[0], note[1]) 
-	desired = input("Please input desired note (no flats)")
-	diff = freq - NOTERY[desired]
+	print(note[0], note[1]) #frequency, octave
+	desired = raw_input("Please input desired note (no flats): ")
+	print(desired)
+	if (note[1] > 0):
+		scale = NOTERY[desired]*2**note[1]
+	diff = freq - scale
 	print(diff)
 
 spitest.main()
