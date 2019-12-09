@@ -11,15 +11,6 @@ NOTERY = { 'C':16.35, "C#":17.32, 'D':18.35, "D#":19.45, "E":20.60,'F':21.83, "F
  16.35:'C', 17.32:"C#", 18.35:'D', 19.45:"D#", 20.60:"E", 21.83:'F', 23.12:"F#", 24.5:'G', 25.96:"G#", 27.5:'A', 29.14:"A#", 30.87:'B'}
 
 
-# absOut = [None] * NUM_ELEMENTS
-# def fastFourier():
-# 	input = pyfftw.empty_aligned(NUM_ELEMENTS, dtype ='complex128')
-# 	for i in range(0, NUM_ELEMENTS):
-# 		input[i] = IN[i]
-# 	output = pyfftw.empty_aligned(NUM_ELEMENTS, dtype ='complex128')
-# 	fft_object = pyfftw.FFTW(input, output)
-# 	return output
-
 def max( arr ):
 	max = 0
 	k = 0
@@ -30,17 +21,12 @@ def max( arr ):
 		k+=1
 
 	return pp
-# def fourierABS( arr ):
-# 	for x in range(0, NUM_ELEMENTS):
-# 		absOut[x] = math.sqrt(arr[x].real**2 + arr[x].imag**2)
-# 	return absOut
 
 
 
 def nFourier():
 	x = np.array(IN)
 	output = fft(x)
-	#output = nFourier()
 	output[0] = 0
 	output = np.abs(output)
 	return output
@@ -95,7 +81,5 @@ spitest.main()
 outty = nFourier()
 index = max(outty)
 freq = index*Fs/NUM_ELEMENTS
-#print(index)
-#print("Frequency: ", freq)
 inOut(freq)
 spitest.printer(outty)
